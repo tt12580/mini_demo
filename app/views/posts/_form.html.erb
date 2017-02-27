@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="col-lg-6 col-lg-offset-3">
+    <%= simple_form_for @post do |f| %>
+      <div class="col-lg-4">
+        <%= f.input :colors, collection: Post.colors.map{ |k, v| [k, k] }, as: :check_boxes %>
+      </div>
+      <div class="col-lg-4">
+        <div class="hide_red">
+          <%= f.input :country, collection: Post.countries.map{ |k, v| [k, k] }, include_blank: false, as: :select %>
+        </div>
+        <div class="hide_black">
+          <%#= f.input :city, collection: Post.cities.keys, as: :radio_buttons %>
+          <%= f.input :city, collection: Post.cities.map{ |k, v| [k, k] }, as: :radio_buttons %>
+        </div>
+      </div>
+
+      <div class="col-lg-12">
+        <%= f.button :submit %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    var red = document.getElementById('post_colors_red');
+    var black = document.getElementById('post_colors_black');
+
+    if ( red.checked == true ) {
+      $(".hide_red").addClass("show_red");
+    }
+    else {
+      $(".hide_red").removeClass("show_red");
+    }
+    if ( black.checked == true ) {
+      $(".hide_black").addClass("show_black");
+    }
+    else {
+      $(".hide_black").removeClass("show_black");
+    }
+    $("#post_colors_red").click(function() {
+        if( red.checked == true ){
+          $(".hide_red").addClass("show_red");
+        }
+        else {
+          $(".hide_red").removeClass("show_red");
+        }
+      });
+      $("#post_colors_black").click(function() {
+          if( black.checked == true ){
+            $(".hide_black").addClass("show_black");
+          }
+          else {
+            $(".hide_black").removeClass("show_black");
+          }
+        });
+    });
+</script>

@@ -1,13 +1,16 @@
 <div class="container">
   <div class="col-lg-6 col-lg-offset-3">
     <%= simple_form_for @post do |f| %>
-      <div class="col-lg-4">
-        <%= f.input :colors, collection: Post.colors.map{ |k, v| [k, k] }, as: :check_boxes %>
-      </div>
-      <div class="col-lg-4">
+      <div class="col-lg-8">
+        <%= f.check_box(:colors, { :multiple => true }, "red", '') %>
+        <label>red</label>
         <div class="hide_red">
           <%= f.input :country, collection: Post.countries.map{ |k, v| [k, k] }, include_blank: false, as: :select %>
         </div>
+        </div>
+        <div class="col-lg-8">
+        <%= f.check_box(:colors, { :multiple => true }, "black", '') %>
+        <label>black</label>
         <div class="hide_black">
           <%#= f.input :city, collection: Post.cities.keys, as: :radio_buttons %>
           <%= f.input :city, collection: Post.cities.map{ |k, v| [k, k] }, as: :radio_buttons %>

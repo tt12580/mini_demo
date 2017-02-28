@@ -4,10 +4,10 @@ class Post < ApplicationRecord
   enum country: [:china, :japan]
   enum city: [:nb, :hz, :bj]
 
-  validates :colors, presence: true, on: :reset_colors
+  validate :must_have_one_color
 
-  def reset_colors
-    self.colors[1].nil?
+  def must_have_one_color
+     errors.add(:colors, 'You must select at least one color') if self.colors.blank?
   end
 
 end

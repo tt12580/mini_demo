@@ -10,21 +10,24 @@ class PostsController < ApplicationController
   end
 
   def create
+    # debugger
     @post = Post.new(post_params)
     if @post.save
       flash[:success] = "创建成功。"
       redirect_to edit_post_url(@post)
     else
-      render :new, :flash => { :error => "Insufficient rights!" }
+      flash[:danger] = "创建失败。#{@post.errors.full_messages.to_sentence}"
+      render :new
     end
   end
 
   def update
-    if @post.update_attributes!(post_params)
+    # debugger
+    if @post.update_attributes(post_params)
       flash[:success] = "更新成功。"
       redirect_to edit_post_url(@post)
     else
-      flash[:danger] = "更新失败。"
+      flash[:danger] = "更新失败。#{@post.errors.full_messages.to_sentence}"
       render :edit
     end
   end

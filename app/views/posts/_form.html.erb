@@ -2,18 +2,25 @@
   <div class="col-lg-6 col-lg-offset-3">
     <%= simple_form_for @post do |f| %>
       <div class="col-lg-8">
-        <%= f.check_box(:colors, { :multiple => true }, "red", '') %>
-        <label>red</label>
+        <%#= f.input :colors, collection: Post::COLORS, as: :check_boxes, include_hidden: false %>
+        <%= f.check_box :colors, { :multiple => true }, "red" %>
+        <%= f.label :colors, 'red', value: 'red' %>
         <div class="hide_red">
-          <%= f.input :country, collection: Post.countries.map{ |k, v| [k, k] }, include_blank: false, as: :select %>
+          <%= f.input :country, collection: Post::COUNTRIES.map{ |k, v| [k, k] }, as: :select %>
         </div>
         </div>
         <div class="col-lg-8">
-        <%= f.check_box(:colors, { :multiple => true }, "black", '') %>
-        <label>black</label>
+        <%= f.check_box(:colors, { :multiple => true }, "black") %>
+        <%= f.label :colors, 'black', value: 'black' %>
         <div class="hide_black">
-          <%#= f.input :city, collection: Post.cities.keys, as: :radio_buttons %>
-          <%= f.input :city, collection: Post.cities.map{ |k, v| [k, k] }, as: :radio_buttons %>
+          <div class="col-lg-8">
+            <%= f.radio_button :city, "nb" %>
+            <%= f.label :city, "#{Post::CITIES[0]}", value: "#{Post::CITIES[0]}" %>
+          </div>
+          <div class="col-lg-8">
+            <%= f.radio_button :city, "#{@post.city}" %>
+            <%= f.select :city, Post::CITIES - [Post::CITIES[0]] %>
+          </div>
         </div>
       </div>
 
@@ -28,6 +35,7 @@
   $(document).ready(function() {
     var red = document.getElementById('post_colors_red');
     var black = document.getElementById('post_colors_black');
+    var isSelected = $("#radio_city").attr("checked");
 
     if ( red.checked == true ) {
       $(".hide_red").addClass("show_red");
@@ -49,13 +57,16 @@
           $(".hide_red").removeClass("show_red");
         }
       });
-      $("#post_colors_black").click(function() {
-          if( black.checked == true ){
-            $(".hide_black").addClass("show_black");
-          }
-          else {
-            $(".hide_black").removeClass("show_black");
-          }
-        });
-    });
+    $("#post_colors_black").click(function() {
+        if( black.checked == true ){
+          $(".hide_black").addClass("show_black");
+        }
+        else {
+          $(".hide_black").removeClass("show_black");
+        }
+      });
+      $("#post_city_nb").click(function() {
+        $("#post_city_nb").attr("checked", "checked");
+      });
+  });
 </script>
